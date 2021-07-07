@@ -54,7 +54,7 @@ func init() {
 		"youku":      youku.New(),
 		"youtube":    youtubeExtractor,
 		"youtu":      youtubeExtractor, // youtu.be
-		"iqiyi":      iqiyi.New(),
+		"iq":         iqiyi.New(),
 		"mgtv":       mgtv.New(),
 		"tangdou":    tangdou.New(),
 		"tumblr":     tumblr.New(),
