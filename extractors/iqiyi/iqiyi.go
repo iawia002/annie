@@ -39,7 +39,7 @@ type iqiyiURL struct {
 	L string `json:"l"`
 }
 
-const iqiyiReferer = "https://www.iqiyi.com"
+const iqiyiReferer = "https://www.iq.com"
 
 func getMacID() string {
 	var macID string
@@ -102,7 +102,9 @@ func New() types.Extractor {
 
 // Extract is the main function to extract the data.
 func (e *extractor) Extract(url string, _ types.Options) ([]*types.Data, error) {
-	html, err := request.Get(url, iqiyiReferer, nil)
+	html, err := request.Get(url, iqiyiReferer, map[string]string{
+		"Accept-Language":   "zh-TW",
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -117,6 +119,7 @@ func (e *extractor) Extract(url string, _ types.Options) ([]*types.Data, error) 
 			`data-player-tvid="([^"]+)"`,
 			`param\['tvid'\]\s*=\s*"(.+?)"`,
 			`"tvid":"(\d+)"`,
+			`"tvId":(\d+)`,
 		)
 	}
 	if tvid == nil || len(tvid) < 2 {
@@ -144,15 +147,15 @@ func (e *extractor) Extract(url string, _ types.Options) ([]*types.Data, error) 
 	if err != nil {
 		return nil, err
 	}
-	title := strings.TrimSpace(doc.Find("h1>a").First().Text())
-	var sub string
-	for _, k := range []string{"span", "em"} {
-		if sub != "" {
-			break
-		}
-		sub = strings.TrimSpace(doc.Find("h1>" + k).First().Text())
-	}
-	title += sub
+	title := strings.TrimSpace(doc.Find("span#pageMetaTitle").First().Text())
+	sub := utils.MatchOneOf(
+			html,
+			`"subTitle":"([^"]+)","isoDuration":`,
+		)
+	if sub != nil || len(sub) > 1 {
+	        title += " "
+	        title += sub[1]
+       }
 	if title == "" {
 		title = doc.Find("title").Text()
 	}
