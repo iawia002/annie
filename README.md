@@ -253,7 +253,7 @@ For bilibili playlists only:
 You can also download multiple URLs at once:
 
 ```console
-$ annie -i https://www.bilibili.com/video/av21877586 https://www.bilibili.com/video/av21990740
+$ annie https://www.bilibili.com/video/av21877586 https://www.bilibili.com/video/av21990740
 
  Site:      哔哩哔哩 bilibili.com
  Title:     【莓机会了】甜到虐哭的13集单集MAD「我现在什么都不想干,更不想看14集」
