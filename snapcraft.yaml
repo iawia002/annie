@@ -1,0 +1,18 @@
+name: annie
+version: '1.0'
+summary: Fast, simple and clean video downloader
+description: |
+  Fast, simple and clean video downloader.
+grade: stable
+confinement: strict
+base: core18
+parts:
+  annie:
+    plugin: dump
+    source: https://github.com/iawia002/annie/releases/download/0.8.5/annie_0.8.5_Linux_64-bit.tar.gz
+apps:
+  annie:
+    command: annie
+    plugs:
+      - home
+      - network
